@@ -1,0 +1,46 @@
+.NavbarContent {
+    display: flex;
+    top: 0;
+    width: 100%; 
+    height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    font-size: 20px;
+}
+
+ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+li {
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0% 2% 0% 2%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.NavUl1 {
+    flex: 1;  
+}
+  
+.NavUl2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 4;
+}
+
+.NavUl3 {
+    flex: 2;
+}
