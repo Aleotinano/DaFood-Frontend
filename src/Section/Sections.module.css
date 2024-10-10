@@ -1,0 +1,51 @@
+
+.MesasSectionContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.NavSections {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #006728;
+
+}
+
+.SectionContainer li{
+    display: flex;
+    flex-direction: row;
+    padding: 0px 10px 0px 10px;
+    margin: 0;
+}
+
+.SectionContainer li button{
+margin-right: 10px;}
+
+.SectionContainer {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .Section {
+    gap: 5px;
+  /* transition: background-color 0.3s ease; */
+  }
+  
+  .Section a {
+    color: #007bff;
+    text-decoration: none;
+    padding: 20px;
+    margin: 0px 5px 0px 5px;
+    height: 100%;
+  }
+  
+  .Section a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Sección activa */
+  .Section.active {
+    background-color: #6cc38d;
+  }
