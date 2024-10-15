@@ -1,7 +1,14 @@
-.MesasContainer {
+.MesasContainerTotal {
     display: flex;
-    flex-direction: column;
     width: 100%;
     height: 100%;
-    background-color: aqua;
+    background-color: transparent;
+}
+
+.MesasContainer {
+    flex: 1;
+}
+
+.MesasPanelControl {
+    flex: 1;
 }

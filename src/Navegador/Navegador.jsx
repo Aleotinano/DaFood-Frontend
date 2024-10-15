@@ -7,31 +7,56 @@ export const Navegador = () => {
     <nav className={NavStyle.NavbarContent}>
       <ul className={NavStyle.NavUl1}>
         <li>
-          <h1>DaFood</h1>
+          <h3 className={NavStyle.Logo}>
+            <b className={NavStyle.LogoRed}>Da</b>
+            Food
+          </h3>
         </li>
       </ul>
 
       <ul className={NavStyle.NavUl2}>
         <li>
-          <Link to="/Section">Sections</Link>
+          <Link to="/Section" className={NavStyle.Links}>
+            Mesas
+          </Link>
         </li>
 
         <li>
-          <Link to="/Opciones1">opciones</Link>
+          <Link to="/Opciones1" className={NavStyle.Links}>
+            Productos
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/Opciones1" className={NavStyle.Links}>
+            Gestion
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/Opciones1" className={NavStyle.Links}>
+            Opciones
+          </Link>
         </li>
       </ul>
 
       <ul className={NavStyle.NavUl3}>
         <li>
-          <Link to="Usuario">Usuario</Link>
+          <Link to="Usuario" className={NavStyle.Links}>
+            Usuario
+          </Link>
         </li>
 
         <li>
-          <Link to="Preguntas">Preguntas</Link>
+          <Link to="Preguntas" className={NavStyle.Links}>
+            Preguntas
+          </Link>
         </li>
 
         <li>
-          <Link to="Ajustes">Ajustes</Link>
+          <Link to="Ajustes" className={NavStyle.Links}>
+            Ajustes
+          </Link>
         </li>
       </ul>
     </nav>

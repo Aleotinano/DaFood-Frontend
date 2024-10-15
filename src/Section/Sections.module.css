@@ -1,51 +1,71 @@
-
 .MesasSectionContainer {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+}
+
+.PanelDeComanda {
+  flex: 1;
 }
 
 .NavSections {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #006728;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  padding: 0% 5% 0% 5%;
+  flex: 1;
 }
 
-.SectionContainer li{
-    display: flex;
-    flex-direction: row;
-    padding: 0px 10px 0px 10px;
-    margin: 0;
+.SectionContainer li {
+  display: flex;
+  flex-direction: row;
+  padding: 0px 10px 0px 10px;
+  margin: 0;
 }
 
-.SectionContainer li button{
-margin-right: 10px;}
+.SectionContainer li button {
+  margin-right: 10px;
+}
 
 .SectionContainer {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .Section {
-    gap: 5px;
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.EditOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.AddSectionButtonContainer {
+  flex: 1;
+}
+
+.Section {
+  gap: 5px;
   /* transition: background-color 0.3s ease; */
-  }
-  
-  .Section a {
-    color: #007bff;
-    text-decoration: none;
-    padding: 20px;
-    margin: 0px 5px 0px 5px;
-    height: 100%;
-  }
-  
-  .Section a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Sección activa */
-  .Section.active {
-    background-color: #6cc38d;
-  }
+}
+
+.Section a {
+  color: #0c0101;
+  text-decoration: none;
+  padding: 20px;
+  margin: 0px 5px 0px 5px;
+  height: 100%;
+}
+
+.Section a:hover {
+  text-decoration: underline;
+}
+
+/* Sección activa */
+.Section.active {
+  background-color: #bbafaf;
+}
+
+
+.PanelDeComanda {
+}

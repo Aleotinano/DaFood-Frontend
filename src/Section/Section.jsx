@@ -3,15 +3,25 @@ import { useLocation } from "react-router-dom";
 import SectionStyle from "./Sections.module.css";
 import { Mesas } from "../Mesas/Mesas";
 
-export const Section = () => {
+export const Section = (mesas) => {
   const [sectionNames, setSectionNames] = useState(() => {
     const savedSections = localStorage.getItem("sections");
     return savedSections ? JSON.parse(savedSections) : [];
   });
 
+  const [mesasPorSeccion, setMesasPorSeccion] = useState(() => {
+    const savedMesas = localStorage.getItem("mesasPorSeccion");
+    return savedMesas ? JSON.parse(savedMesas) : {}; // Objeto donde se almacenan las mesas por sección
+  });
+
+  // Estado para contar el número total de mesas
+  const [mesaGlobalCount, setMesaGlobalCount] = useState(() => {
+    const savedCount = localStorage.getItem("mesaGlobalCount");
+    return savedCount ? JSON.parse(savedCount) : 0; // Inicializa en 0 si no hay en localStorage
+  });
+
   const location = useLocation();
-  const [activeSection, setActiveSection] = useState(null); // Estado para la sección activa
-  const [newSectionIndex, setNewSectionIndex] = useState(null); // Índice de la nueva sección
+  const [activeSection, setActiveSection] = useState(null);
 
   const AddSectionButton = () => {
     let sectionName = prompt("Ingresa el nombre de la nueva sección:");
@@ -30,33 +40,59 @@ export const Section = () => {
     if (sectionName) {
       setSectionNames((prevSections) => {
         const updatedSections = [...prevSections, sectionName];
-        setNewSectionIndex(updatedSections.length - 1); // Guarda el índice de la nueva sección
+        setMesasPorSeccion((prevMesas) => ({
+          ...prevMesas,
+          [sectionName]: [], // Inicializa un array vacío para las mesas de la nueva sección
+        }));
         return updatedSections;
       });
     }
   };
 
   const RemoveSection = (indexToRemove) => {
+    const sectionToRemove = sectionNames[indexToRemove];
+
+    // Obtiene el número de mesas en la sección a eliminar
+    const mesasAEliminar = mesasPorSeccion[sectionToRemove].length;
+
+    // Elimina la sección del estado de nombres y también de mesasPorSeccion
     setSectionNames((prevSections) =>
       prevSections.filter((_, index) => index !== indexToRemove)
     );
-    setNewSectionIndex(null); // Restablece el índice si se elimina
+
+    setMesasPorSeccion((prevMesas) => {
+      const updatedMesas = { ...prevMesas };
+      delete updatedMesas[sectionToRemove]; // Elimina las mesas de esa sección
+      return updatedMesas;
+    });
+
+    // Actualiza el contador global
+    setMesaGlobalCount((prevCount) => prevCount - mesasAEliminar);
   };
 
   const EditSectionName = (index) => {
     const newName = prompt("Ingresa el nuevo nombre para la sección:");
 
     if (newName) {
+      const oldName = sectionNames[index];
       setSectionNames((prevSections) =>
         prevSections.map((name, idx) => (idx === index ? newName : name))
       );
+
+      setMesasPorSeccion((prevMesas) => {
+        const updatedMesas = { ...prevMesas, [newName]: prevMesas[oldName] };
+        delete updatedMesas[oldName]; // Renombra las mesas asociadas a la sección
+        return updatedMesas;
+      });
     }
   };
 
   // Maneja el efecto de actualización del localStorage
   useEffect(() => {
     localStorage.setItem("sections", JSON.stringify(sectionNames));
-  }, [sectionNames]);
+    localStorage.setItem("mesasPorSeccion", JSON.stringify(mesasPorSeccion));
+    localStorage.setItem("mesaGlobalCount", JSON.stringify(mesaGlobalCount)); // Guardar el contador de mesas
+  }, [sectionNames, mesasPorSeccion, mesaGlobalCount]);
 
   // Actualiza activeSection cada vez que cambia la URL
   useEffect(() => {
@@ -87,10 +123,9 @@ export const Section = () => {
             const sectionId = sectionName.toLowerCase().replace(/\s+/g, "-");
             const isActive = location.hash === `#${sectionId}`;
 
-            // Añadir clases dinámicas
             const sectionClass = `${SectionStyle.Section} ${
-              index === newSectionIndex ? SectionStyle.NewSection : ""
-            } ${isActive ? SectionStyle.active : ""}`;
+              isActive ? SectionStyle.active : ""
+            }`;
 
             return (
               <li key={index} className={sectionClass}>
@@ -109,11 +144,27 @@ export const Section = () => {
             );
           })}
         </ul>
-        <button onClick={AddSectionButton}>Agregar Sección</button>
-
-        {/* Mostrar el componente Mesas cuando hay una sección activa */}
+        <ul className={SectionStyle.AddSectionButtonContainer}>
+          <button onClick={AddSectionButton}>Agregar Sección</button>
+        </ul>
       </div>
-      {activeSection && <Mesas sectionName={activeSection} />}
+
+      {/* Mostrar el componente Mesas cuando hay una sección activa */}
+      <>
+        {activeSection && (
+          <Mesas
+            mesas={mesasPorSeccion[activeSection]} // Pasar las mesas de la sección activa
+            setMesas={(nuevasMesas) =>
+              setMesasPorSeccion((prevMesas) => ({
+                ...prevMesas,
+                [activeSection]: nuevasMesas, // Actualiza solo las mesas de la sección activa
+              }))
+            }
+            mesaGlobalCount={mesaGlobalCount} // Pasar el contador global de mesas
+            setMesaGlobalCount={setMesaGlobalCount} // Pasar la función para actualizar el contador global
+          />
+        )}
+      </>
     </div>
   );
 };
