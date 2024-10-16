@@ -110,6 +110,9 @@ export const Section = (mesas) => {
   return (
     <div className={SectionStyle.MesasSectionContainer}>
       <div className={SectionStyle.NavSections}>
+        <ul className={SectionStyle.AddSectionButtonContainer}>
+          <button onClick={AddSectionButton}>Agregar Sección</button>
+        </ul>
         <ul className={SectionStyle.SectionContainer}>
           {sectionNames.map((sectionName, index) => {
             if (typeof sectionName !== "string") {
@@ -143,9 +146,6 @@ export const Section = (mesas) => {
               </li>
             );
           })}
-        </ul>
-        <ul className={SectionStyle.AddSectionButtonContainer}>
-          <button onClick={AddSectionButton}>Agregar Sección</button>
         </ul>
       </div>
 

@@ -49,18 +49,16 @@ export const Mesas = ({
             </button>
           </li>
         ))}
-      </ul>
 
-      <div className={MesasStyle.MesasPanelControl}>
-        <p>Camarero</p>
-        <p>descripcion</p>
-        <button onClick={eliminarMesa} disabled={mesaSeleccionada === null}>
-          Eliminar Mesa
-        </button>{" "}
-        {/* Botón para eliminar */}
-        <button onClick={resetearContador}>Resetear Contador</button>{" "}
-        {/* Botón para resetear */}
-      </div>
+        <div className={MesasStyle.MesasPanelControlDeMesas}>
+          <button onClick={eliminarMesa} disabled={mesaSeleccionada === null}>
+            Eliminar Mesa
+          </button>{" "}
+          {/* Botón para eliminar */}
+          <button onClick={resetearContador}>Resetear Contador</button>{" "}
+          {/* Botón para resetear */}
+        </div>
+      </ul>
     </div>
   );
 };

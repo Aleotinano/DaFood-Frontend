@@ -1,4 +1,4 @@
-import "./index";
+import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { Navegador } from "./Navegador/Navegador";
 import { Section } from "./Section/Section";
@@ -13,10 +13,10 @@ function App() {
         <Route
           path="/Section"
           element={
-            <>
-              <PanelDeComanda />
+            <div className="FlexRow">
               <Section />
-            </>
+              <PanelDeComanda />
+            </div>
           }
         />
         <Route path="/Opciones1" element={<Opciones1 />} />

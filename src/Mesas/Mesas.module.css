@@ -6,9 +6,10 @@
 }
 
 .MesasContainer {
+    display: flex;
     flex: 1;
 }
 
-.MesasPanelControl {
+.MesasPanelControlDeMesas {
     flex: 1;
 }
