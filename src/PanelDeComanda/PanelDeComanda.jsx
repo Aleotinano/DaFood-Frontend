@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import PanelStyle from "./PanelDeComida.module.css";
 
-export const PanelDeComanda = () => {
+export const PanelDeComanda = ({ onCamareroChange }) => {
+  const [camarero, setCamareroInput] = useState("");
+
+  const handleCamareroChange = (e) => {
+    const value = e.target.value;
+    setCamareroInput(value);
+    onCamareroChange(value); // Notificar al padre sobre el cambio
+  };
+
   return (
     <div className={PanelStyle.PanelContainer}>
       <ul>
@@ -9,10 +17,17 @@ export const PanelDeComanda = () => {
           <h2>Mesa</h2>
         </li>
         <li>
-          <p>Camarero</p>
+          <input
+            type="text"
+            placeholder="Camarero"
+            name="Camarero"
+            value={camarero}
+            onChange={handleCamareroChange} // Captura el cambio en el input
+          />
+          <label htmlFor="Camarero"></label>
         </li>
         <li>
-          <p>Descripcion</p>
+          <p>Descripción</p>
         </li>
       </ul>
     </div>

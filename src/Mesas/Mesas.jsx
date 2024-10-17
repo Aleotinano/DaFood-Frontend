@@ -1,5 +1,6 @@
 import MesasStyle from "./Mesas.module.css";
-import { useState } from "react"; // Asegúrate de importar useState
+import { useState } from "react";
+import { PanelDeComanda } from "../PanelDeComanda/PanelDeComanda";
 
 export const Mesas = ({
   mesas = [],
@@ -7,7 +8,17 @@ export const Mesas = ({
   mesaGlobalCount,
   setMesaGlobalCount,
 }) => {
+  const [camarerosPorMesa, setCamarerosPorMesa] = useState({}); // Estado para almacenar el camarero de cada mesa
   const [mesaSeleccionada, setMesaSeleccionada] = useState(null); // Estado para la mesa seleccionada
+
+  const handleCamareroChange = (newCamarero) => {
+    if (mesaSeleccionada !== null) {
+      setCamarerosPorMesa((prevCamareros) => ({
+        ...prevCamareros,
+        [mesaSeleccionada]: newCamarero, // Almacena el camarero solo para la mesa seleccionada
+      }));
+    }
+  };
 
   const agregarMesa = () => {
     const nuevaMesa = `Mesa ${mesaGlobalCount + 1}`;
@@ -17,47 +28,58 @@ export const Mesas = ({
 
   const eliminarMesa = () => {
     if (mesaSeleccionada !== null) {
-      // Verifica si se eliminó una mesa que está por debajo del contador global
-      if (mesaSeleccionada < mesaGlobalCount) {
-        setMesaGlobalCount(mesaGlobalCount - 1); // Decrementa el contador global
-      }
+      setMesas(mesas.filter((_, index) => index !== mesaSeleccionada)); // Elimina la mesa seleccionada
 
-      setMesas(mesas.filter((mesa, index) => index !== mesaSeleccionada)); // Elimina la mesa seleccionada
+      setCamarerosPorMesa((prevCamareros) => {
+        const newCamareros = { ...prevCamareros };
+        delete newCamareros[mesaSeleccionada]; // Elimina el camarero asociado a la mesa
+        return newCamareros;
+      });
+
       setMesaSeleccionada(null); // Resetea la mesa seleccionada
     }
   };
 
   const resetearContador = () => {
     setMesaGlobalCount(0); // Resetea el contador global
-    setMesas([]); // También puedes querer vaciar la lista de mesas
+    setMesas([]); // Vacía la lista de mesas
+    setCamarerosPorMesa({}); // Limpia los camareros
   };
 
   return (
     <div className={MesasStyle.MesasContainerTotal}>
-      <ul className={MesasStyle.MesasContainer}>
-        <li>
-          <button onClick={agregarMesa}>Agregar Mesa</button>
-        </li>
-
-        {mesas.map((mesa, index) => (
-          <li key={index}>
-            <button
-              onClick={() => setMesaSeleccionada(index)} // Establece la mesa seleccionada
-              className={mesaSeleccionada === index ? MesasStyle.selected : ""} // Agrega una clase para estilo
-            >
-              {mesa}
+      <div className={MesasStyle.ContenedorMesas}>
+        <ul className={MesasStyle.PanelControlDeMesas}>
+          <li>
+            <button onClick={agregarMesa}>Agregar Mesa</button>
+            <button onClick={eliminarMesa} disabled={mesaSeleccionada === null}>
+              Eliminar Mesa
             </button>
+            <button onClick={resetearContador}>Resetear Contador</button>
           </li>
-        ))}
+        </ul>
 
-        <div className={MesasStyle.MesasPanelControlDeMesas}>
-          <button onClick={eliminarMesa} disabled={mesaSeleccionada === null}>
-            Eliminar Mesa
-          </button>{" "}
-          {/* Botón para eliminar */}
-          <button onClick={resetearContador}>Resetear Contador</button>{" "}
-          {/* Botón para resetear */}
-        </div>
+        <ul className={MesasStyle.Mesas}>
+          {mesas.map((mesa, index) => (
+            <li key={index}>
+              <button
+                onClick={() => setMesaSeleccionada(index)}
+                className={
+                  mesaSeleccionada === index ? MesasStyle.selected : ""
+                }
+              >
+                {mesa}
+              </button>
+              {mesaSeleccionada === index && (
+                <p>Mozo: {camarerosPorMesa[index] || "Sin asignar"}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <ul className={MesasStyle.PanelDeComandaContainer}>
+        <PanelDeComanda onCamareroChange={handleCamareroChange} />
       </ul>
     </div>
   );
