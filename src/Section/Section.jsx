@@ -5,6 +5,7 @@ import { Mesas } from "../Mesas/Mesas";
 
 export const Section = () => {
   const location = useLocation();
+  const [selectedSectionIndex, setSelectedSectionIndex] = useState(null);
 
   const [sectionNames, setSectionNames] = useState(() => {
     const savedSections = localStorage.getItem("sections");
@@ -66,18 +67,25 @@ export const Section = () => {
     setMesaGlobalCount((prevCount) => prevCount - mesasAEliminar);
   };
 
-  const EditSectionName = (index) => {
+  const EditSectionName = (sectionindex) => {
     const newName = prompt("Ingresa el nuevo nombre para la sección:");
 
     if (newName) {
-      const oldName = sectionNames[index];
+      const oldName = sectionNames[sectionindex];
       setSectionNames((prevSections) =>
-        prevSections.map((name, idx) => (idx === index ? newName : name))
+        prevSections.map((name, idx) => (idx === sectionindex ? newName : name))
       );
 
       setMesasPorSeccion((prevMesas) => {
         const updatedMesas = { ...prevMesas, [newName]: prevMesas[oldName] };
         delete updatedMesas[oldName];
+        if (activeSection === oldName) {
+          setActiveSection(newName);
+
+          // Actualizar el hash en la URL para reflejar el nuevo nombre
+          const newSectionId = newName.toLowerCase().replace(/\s+/g, "-");
+          window.location.hash = `#${newSectionId}`;
+        }
         return updatedMesas;
       });
     }
@@ -115,11 +123,20 @@ export const Section = () => {
   return (
     <div className={SectionStyle.MesasSectionContainer}>
       <div className={SectionStyle.NavSections}>
-        <ul className={SectionStyle.AddSectionButtonContainer}>
-          <button onClick={AddSectionButton}>Agregar Sección</button>
+        <ul className={SectionStyle.PanelControlDeSections}>
+          <button
+            onClick={AddSectionButton}
+            className={SectionStyle.AddSectionButton}
+          >
+            +
+          </button>
+          <button onClick={() => EditSectionName(selectedSectionIndex)}>
+            Edit
+          </button>
+          <button onClick={() => RemoveSection(selectedSectionIndex)}>X</button>
         </ul>
         <ul className={SectionStyle.SectionContainer}>
-          {sectionNames.map((sectionName, index) => {
+          {sectionNames.map((sectionName, sectionindex) => {
             const sectionId = sectionName.toLowerCase().replace(/\s+/g, "-");
             const isActive = activeSection === sectionName;
             const sectionClass = `${SectionStyle.Section} ${
@@ -127,7 +144,11 @@ export const Section = () => {
             }`;
 
             return (
-              <li key={index} className={sectionClass}>
+              <li
+                key={sectionindex}
+                className={sectionClass}
+                onClick={() => setSelectedSectionIndex(sectionindex)}
+              >
                 <a
                   href={`#${sectionId}`}
                   onClick={(e) => {
@@ -137,12 +158,6 @@ export const Section = () => {
                 >
                   {sectionName}
                 </a>
-                {isActive && (
-                  <div className={SectionStyle.EditOptions}>
-                    <button onClick={() => EditSectionName(index)}>Edit</button>
-                    <button onClick={() => RemoveSection(index)}>X</button>
-                  </div>
-                )}
               </li>
             );
           })}

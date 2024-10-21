@@ -1,5 +1,13 @@
 .MesasSectionContainer {
   display: flex;
+  height: calc(100vh - 80px);
+}
+
+.NavSections,
+.SectionContainer,
+.Section a {
+  height: 100%;
+  width: 100%;
 }
 
 .NavSections {
@@ -7,12 +15,10 @@
   flex-direction: column;
   align-items: start;
   justify-content: center;
-  background-color: transparent;
-  height: 100%;
-  width: 100%;
-  padding: 20px 0% 10px 2%;
-  flex: 1.5;
-  background-color: #0f0101;
+
+  padding: 20px 0% 0px 2%;
+  flex: 0.5;
+  background-color: #050505;
 }
 
 .MesasContainer {
@@ -29,59 +35,36 @@
 
 .SectionContainer li {
   display: flex;
+  align-items: start;
   width: 100%;
-  height: 100%;
-  padding: 10px;
+  height: 80px;
+  padding: 10px 20px 10px 10px;
   border-radius: 10px 0px 0px 10px;
 }
 
-.EditOptions {
+.PanelControlDeSections {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  width: 100%;
 }
 
-.EditOptions button {
-  height: 33px;
-  width: 33px;
-  border-radius: 100px;
-}
-
-.AddSectionButtonContainer{
-  margin-bottom: 50px;
-
-}
-
-
-.AddSectionButtonContainer button{
-  padding: 15px;
-  margin: 5px;
+.PanelControlDeSections button {
+  width: 60px;
   height: 50px;
-  text-align: start;
+  border-radius: 10px;
 }
 
 .Section {
   gap: 5px;
-  /* transition: background-color 0.3s ease; */
+  transition: background-color 500ms ease;
 }
 
 .Section a {
   color: #0c0101;
   text-decoration: none;
   padding: 10px;
-  margin: 2px;
-  height: 100%;
-  width: 100%;
-}
-
-.Section li {
-  padding: 10px;
-}
-
-.Section a:hover {
-  text-decoration: underline;
+  color: white;
 }
 
 .Section.active {
-  background-color: #4b4b4b;
+  background-color: #272727;
 }

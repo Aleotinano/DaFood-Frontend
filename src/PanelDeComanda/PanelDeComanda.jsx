@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PanelStyle from "./PanelDeComida.module.css";
+import PanelStyle from "./PanelDeComanda.module.css";
 
 export const PanelDeComanda = ({ onCamareroChange }) => {
   const [camarero, setCamareroInput] = useState("");
@@ -14,7 +14,7 @@ export const PanelDeComanda = ({ onCamareroChange }) => {
     <div className={PanelStyle.PanelContainer}>
       <ul>
         <li>
-          <h2>Mesa</h2>
+          <h2>Mesañ</h2>
         </li>
         <li>
           <input

@@ -1,0 +1,19 @@
+.Navconteiner {
+  display: none; /* Oculto por defecto */
+}
+
+.MenuIcon img {
+  height: 40px;
+  width: 40px;
+}
+
+@media (max-width: 1000px) {
+  .NavUl3 {
+    display: none;
+  }
+
+  .Navconteiner {
+    display: flex; /* Se muestra solo en pantallas pequeñas */
+    flex-direction: column;
+  }
+}

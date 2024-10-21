@@ -8,8 +8,12 @@ export const Mesas = ({
   mesaGlobalCount,
   setMesaGlobalCount,
 }) => {
-  const [camarerosPorMesa, setCamarerosPorMesa] = useState({}); // Estado para almacenar el camarero de cada mesa
-  const [mesaSeleccionada, setMesaSeleccionada] = useState(null); // Estado para la mesa seleccionada
+  const [camarerosPorMesa, setCamarerosPorMesa] = useState({});
+  const [coloresMesa, setColoresMesa] = useState([]);
+  const [mesaSeleccionada, setMesaSeleccionada] = useState(
+    mesas.length > 0 ? 0 : null
+  );
+  const MesaImg = "";
 
   const handleCamareroChange = (newCamarero) => {
     if (mesaSeleccionada !== null) {
@@ -22,28 +26,36 @@ export const Mesas = ({
 
   const agregarMesa = () => {
     const nuevaMesa = `Mesa ${mesaGlobalCount + 1}`;
-    setMesas([...mesas, nuevaMesa]); // Agrega la nueva mesa a la sección actual
-    setMesaGlobalCount(mesaGlobalCount + 1); // Incrementa el contador global de mesas
+    setMesas([...mesas, nuevaMesa]);
+    setMesaGlobalCount(mesaGlobalCount + 1);
   };
 
   const eliminarMesa = () => {
     if (mesaSeleccionada !== null) {
-      setMesas(mesas.filter((_, index) => index !== mesaSeleccionada)); // Elimina la mesa seleccionada
-
+      const nuevasMesas = mesas.filter(
+        (_, index) => index !== mesaSeleccionada
+      );
+      setMesas(nuevasMesas);
       setCamarerosPorMesa((prevCamareros) => {
         const newCamareros = { ...prevCamareros };
-        delete newCamareros[mesaSeleccionada]; // Elimina el camarero asociado a la mesa
+        delete newCamareros[mesaSeleccionada];
         return newCamareros;
       });
-
-      setMesaSeleccionada(null); // Resetea la mesa seleccionada
+      // Si aún quedan mesas, selecciona otra
+      if (nuevasMesas.length > 0) {
+        setMesaSeleccionada(0); // O el índice que prefieras
+      } else {
+        setMesaSeleccionada(null); // Si no quedan mesas
+      }
     }
   };
 
   const resetearContador = () => {
-    setMesaGlobalCount(0); // Resetea el contador global
-    setMesas([]); // Vacía la lista de mesas
-    setCamarerosPorMesa({}); // Limpia los camareros
+    setMesaGlobalCount(0);
+    setMesas([]);
+    setCamarerosPorMesa({});
+    setColoresMesa([]); // Limpia los colores de las mesas
+    localStorage.removeItem("coloresMesa"); // Limpia localStorage
   };
 
   return (
@@ -51,11 +63,22 @@ export const Mesas = ({
       <div className={MesasStyle.ContenedorMesas}>
         <ul className={MesasStyle.PanelControlDeMesas}>
           <li>
-            <button onClick={agregarMesa}>Agregar Mesa</button>
-            <button onClick={eliminarMesa} disabled={mesaSeleccionada === null}>
+            <button onClick={agregarMesa} className={MesasStyle.AddTablebutton}>
+              Agregar Mesa
+            </button>
+            <button
+              onClick={eliminarMesa}
+              disabled={mesaSeleccionada === null}
+              className={MesasStyle.DeleteTablebutton}
+            >
               Eliminar Mesa
             </button>
-            <button onClick={resetearContador}>Resetear Contador</button>
+            <button
+              onClick={resetearContador}
+              className={MesasStyle.ResetTablebutton}
+            >
+              Resetear Contador
+            </button>
           </li>
         </ul>
 
@@ -68,11 +91,18 @@ export const Mesas = ({
                   mesaSeleccionada === index ? MesasStyle.selected : ""
                 }
               >
-                {mesa}
+                <div className={MesasStyle.SpanContentTable}>
+                  <div className={MesasStyle.SpanTable}>
+                    {MesaImg}
+                    {mesa}
+                  </div>
+                  <div className={MesasStyle.SpanMozoInfo}>
+                    {mesaSeleccionada === index && (
+                      <p>Mozo: {camarerosPorMesa[index] || "Sin asignar"}</p>
+                    )}
+                  </div>
+                </div>
               </button>
-              {mesaSeleccionada === index && (
-                <p>Mozo: {camarerosPorMesa[index] || "Sin asignar"}</p>
-              )}
             </li>
           ))}
         </ul>
