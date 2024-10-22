@@ -3,7 +3,6 @@
   height: calc(100vh - 80px);
 }
 
-.NavSections,
 .SectionContainer,
 .Section a {
   height: 100%;
@@ -12,45 +11,67 @@
 
 .NavSections {
   display: flex;
-  flex-direction: column;
   align-items: start;
   justify-content: center;
-
-  padding: 20px 0% 0px 2%;
-  flex: 0.5;
+  position: fixed;
+  height: 80px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0px 0% 0px 2%;
   background-color: #050505;
 }
 
 .MesasContainer {
-  flex: 5;
+  flex: 1;
   flex-wrap: wrap;
 }
 
 .SectionContainer {
   display: flex;
-  flex-direction: row;
+  flex: 8;
   list-style: none;
-  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .SectionContainer li {
   display: flex;
-  align-items: start;
-  width: 100%;
-  height: 80px;
-  padding: 10px 20px 10px 10px;
-  border-radius: 10px 0px 0px 10px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 .PanelControlDeSections {
   display: flex;
-  width: 100%;
+  flex: 2;
+  justify-content: start;
+  padding: 1%;
+  gap: 10px;
 }
 
 .PanelControlDeSections button {
-  width: 60px;
+  width: 80px;
   height: 50px;
   border-radius: 10px;
+  border: none;
+  background-color: #272727;
+}
+
+.Icons {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.AddSectionButton:hover {
+  background-color: #4d721a;
+}
+
+.EditSectionButton:hover {
+  background-color: #aa6024;
+}
+.DeleteSectionButton:hover {
+  background-color: #922222;
 }
 
 .Section {
@@ -61,10 +82,11 @@
 .Section a {
   color: #0c0101;
   text-decoration: none;
-  padding: 10px;
+  padding: 30px;
   color: white;
 }
 
 .Section.active {
   background-color: #272727;
+  border-top: #4d721a 2px solid;
 }

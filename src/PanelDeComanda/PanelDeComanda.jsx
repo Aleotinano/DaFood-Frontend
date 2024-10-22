@@ -14,7 +14,8 @@ export const PanelDeComanda = ({ onCamareroChange }) => {
     <div className={PanelStyle.PanelContainer}>
       <ul>
         <li>
-          <h2>Mesañ</h2>
+          <h2>Seccion</h2>
+          <h2>Mesa</h2>
         </li>
         <li>
           <input
@@ -28,6 +29,18 @@ export const PanelDeComanda = ({ onCamareroChange }) => {
         </li>
         <li>
           <p>Descripción</p>
+        </li>
+
+        <li>
+          Comanda: <p>1Lorem ipsum dolor</p>
+          <p>2sit amet consectetur </p> <p>3 sit amet consectetur </p>{" "}
+          <p>4 explicabo nobis soluta q</p>
+        </li>
+        <li>
+          <button>Abrir Mesa</button>
+        </li>
+        <li>
+          <button>Cerrar Mesa</button>
         </li>
       </ul>
     </div>

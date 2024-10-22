@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import SectionStyle from "./Sections.module.css";
 import { Mesas } from "../Mesas/Mesas";
+import DeleteIcon from "../path-to-image/delete_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png";
+import AddIcon from "../path-to-image/add_circle_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png";
+import EditIcon from "../path-to-image/brush_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png";
 
 export const Section = () => {
   const location = useLocation();
@@ -128,12 +131,32 @@ export const Section = () => {
             onClick={AddSectionButton}
             className={SectionStyle.AddSectionButton}
           >
-            +
+            <img
+              src={AddIcon}
+              alt="AddSection"
+              className={SectionStyle.Icons}
+            />
           </button>
-          <button onClick={() => EditSectionName(selectedSectionIndex)}>
-            Edit
+          <button
+            onClick={() => EditSectionName(selectedSectionIndex)}
+            className={SectionStyle.EditSectionButton}
+          >
+            <img
+              src={EditIcon}
+              alt="EditSection"
+              className={SectionStyle.Icons}
+            />
           </button>
-          <button onClick={() => RemoveSection(selectedSectionIndex)}>X</button>
+          <button
+            onClick={() => RemoveSection(selectedSectionIndex)}
+            className={SectionStyle.DeleteSectionButton}
+          >
+            <img
+              src={DeleteIcon}
+              alt="DeleteSection"
+              className={SectionStyle.Icons}
+            />
+          </button>
         </ul>
         <ul className={SectionStyle.SectionContainer}>
           {sectionNames.map((sectionName, sectionindex) => {

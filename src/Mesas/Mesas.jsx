@@ -1,6 +1,8 @@
 import MesasStyle from "./Mesas.module.css";
 import { useState } from "react";
 import { PanelDeComanda } from "../PanelDeComanda/PanelDeComanda";
+import CamareroIcon from "../path-to-image/3p_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png";
+import MesaIcon from "../path-to-image/table_bar_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png";
 
 export const Mesas = ({
   mesas = [],
@@ -9,11 +11,9 @@ export const Mesas = ({
   setMesaGlobalCount,
 }) => {
   const [camarerosPorMesa, setCamarerosPorMesa] = useState({});
-  const [coloresMesa, setColoresMesa] = useState([]);
   const [mesaSeleccionada, setMesaSeleccionada] = useState(
     mesas.length > 0 ? 0 : null
   );
-  const MesaImg = "";
 
   const handleCamareroChange = (newCamarero) => {
     if (mesaSeleccionada !== null) {
@@ -54,7 +54,6 @@ export const Mesas = ({
     setMesaGlobalCount(0);
     setMesas([]);
     setCamarerosPorMesa({});
-    setColoresMesa([]); // Limpia los colores de las mesas
     localStorage.removeItem("coloresMesa"); // Limpia localStorage
   };
 
@@ -92,14 +91,21 @@ export const Mesas = ({
                 }
               >
                 <div className={MesasStyle.SpanContentTable}>
-                  <div className={MesasStyle.SpanTable}>
-                    {MesaImg}
+                  <div className={MesasStyle.Spancontent}>
+                    <img
+                      src={MesaIcon}
+                      alt="Mesa"
+                      className={MesasStyle.IconSpam}
+                    />
                     {mesa}
                   </div>
-                  <div className={MesasStyle.SpanMozoInfo}>
-                    {mesaSeleccionada === index && (
-                      <p>Mozo: {camarerosPorMesa[index] || "Sin asignar"}</p>
-                    )}
+                  <div className={MesasStyle.Spancontent}>
+                    <img
+                      src={CamareroIcon}
+                      alt="CamareroIcon"
+                      className={MesasStyle.IconSpam}
+                    />
+                    <p>{camarerosPorMesa[index] || "Sin asignar"}</p>
                   </div>
                 </div>
               </button>

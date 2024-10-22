@@ -1,18 +1,16 @@
 import { Link } from "react-router-dom";
-import NavMobileStyle from "./NavMobil.module.css"; // Asegúrate que exista este archivo.
+import NavMobileStyle from "./NavMobil.module.css";
 import MenuIcon from "../path-to-image/menu_24dp_E8EAED_FILL0_wght300_GRAD0_opsz24.png";
 import MenuCloseIcon from "../path-to-image/close_24dp_E8EAED_FILL0_wght300_GRAD0_opsz24.png";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export const NavMobile = () => {
-  const [isNavVisible, setIsNavVisible] = useState(false); // Controla la visibilidad del contenedor
+  const [isNavVisible, setIsNavVisible] = useState(false);
 
-  // Función para mostrar el contenedor (cambiar a display: flex)
   const NavMobileShow = () => {
     setIsNavVisible(true);
   };
 
-  // Función para ocultar el contenedor (cambiar a display: none)
   const NavMobileHide = () => {
     setIsNavVisible(false);
   };
@@ -24,7 +22,6 @@ export const NavMobile = () => {
           <img src={MenuIcon} alt="Menu" />
         </button>
 
-        {/* Botón para ocultar el menú */}
         <button onClick={NavMobileHide}>
           <img src={MenuCloseIcon} alt="Close" />
         </button>
@@ -32,7 +29,6 @@ export const NavMobile = () => {
 
       <ul
         className={NavMobileStyle.NavContent}
-        id="NavContent"
         style={{ display: isNavVisible ? "flex" : "none" }}
       >
         <li>
@@ -43,9 +39,6 @@ export const NavMobile = () => {
         </li>
         <li>
           <Link to="/Opciones1">Gestion</Link>
-        </li>
-        <li>
-          <Link to="/Opciones1">Opciones</Link>
         </li>
       </ul>
 
