@@ -4,6 +4,8 @@
   --primary-color: #242424;
   --secondary-color: #272727;
   --backgroun-color: #333333;
+  --panel-color: #cccccc;
+  --panel-bottom-color: #2b2b2b;
   --font-color: #cfd8dc;
 
   /*tipograifa*/
@@ -20,7 +22,7 @@
 
   /*efectos*/
   --transition-speed: 500ms;
-  --gap-size: 10px;
+  --gap-size: 10%;
 
   /*cursor*/
   --cursor-pointer: pointer;
