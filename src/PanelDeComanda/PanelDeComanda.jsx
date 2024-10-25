@@ -13,7 +13,7 @@ export const PanelDeComanda = ({ onCamareroChange }) => {
   return (
     <div className={PanelStyle.PanelContainer}>
       <ul>
-        <li>
+        <li className={PanelStyle.titulo}>
           <h2>Seccion</h2>
           <h2>Mesa</h2>
         </li>

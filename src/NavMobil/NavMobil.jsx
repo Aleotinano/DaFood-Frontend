@@ -1,56 +1,62 @@
 import { Link } from "react-router-dom";
-import NavMobileStyle from "./NavMobil.module.css";
-import MenuIcon from "../path-to-image/menu_24dp_E8EAED_FILL0_wght300_GRAD0_opsz24.png";
-import MenuCloseIcon from "../path-to-image/close_24dp_E8EAED_FILL0_wght300_GRAD0_opsz24.png";
 import { useState } from "react";
+import NavMobileStyle from "./NavMobil.module.css";
+import MenuIcon from "../Paht/Images/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import MenuCloseIcon from "../Paht/Images/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import UserIcon from "../Paht/Images/person_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import HelpIcon from "../Paht/Images//help_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import SettingsUserIcon from "../Paht/Images/settings_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import "../Paht/variables/variables.css";
 
 export const NavMobile = () => {
   const [isNavVisible, setIsNavVisible] = useState(false);
 
-  const NavMobileShow = () => {
-    setIsNavVisible(true);
-  };
-
-  const NavMobileHide = () => {
-    setIsNavVisible(false);
+  const toggleNavVisibility = () => {
+    setIsNavVisible(!isNavVisible);
   };
 
   return (
     <div className={NavMobileStyle.Navconteiner}>
-      <ul className={NavMobileStyle.OpenNavButton}>
-        <button onClick={NavMobileShow}>
-          <img src={MenuIcon} alt="Menu" />
-        </button>
-
-        <button onClick={NavMobileHide}>
-          <img src={MenuCloseIcon} alt="Close" />
+      <ul className={NavMobileStyle.ButtonsConteiner}>
+        <button onClick={toggleNavVisibility}>
+          <img
+            src={isNavVisible ? MenuCloseIcon : MenuIcon}
+            alt="Menu"
+            className={NavMobileStyle.Icons}
+          />
         </button>
       </ul>
-
       <ul
-        className={NavMobileStyle.NavContent}
-        style={{ display: isNavVisible ? "flex" : "none" }}
+        className={`${NavMobileStyle.DropMenu} ${
+          isNavVisible ? NavMobileStyle.NavVisible : ""
+        }`}
       >
         <li>
-          <Link to="/Section">Mesas</Link>
+          <Link to="/Usuario" className={NavMobileStyle.Links}>
+            <img
+              src={UserIcon}
+              alt="Usuario"
+              className={NavMobileStyle.Icons}
+            />
+          </Link>
         </li>
         <li>
-          <Link to="/Opciones1">Productos</Link>
+          <Link to="/Preguntas" className={NavMobileStyle.Links}>
+            <img
+              src={HelpIcon}
+              alt="Preguntas"
+              className={NavMobileStyle.Icons}
+            />
+          </Link>
         </li>
         <li>
-          <Link to="/Opciones1">Gestion</Link>
-        </li>
-      </ul>
-
-      <ul>
-        <li>
-          <Link to="/Usuario">Usuario</Link>
-        </li>
-        <li>
-          <Link to="/Preguntas">Preguntas</Link>
-        </li>
-        <li>
-          <Link to="/Ajustes">Ajustes</Link>
+          <Link to="/Ajustes" className={NavMobileStyle.Links}>
+            <img
+              src={SettingsUserIcon}
+              alt="Ajustes"
+              className={NavMobileStyle.Icons}
+            />
+          </Link>
         </li>
       </ul>
     </div>

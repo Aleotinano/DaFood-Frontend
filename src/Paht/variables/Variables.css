@@ -1,0 +1,27 @@
+:root {
+  /*colores*/
+  --icons-color: #cfd8dc;
+  --primary-color: #242424;
+  --secondary-color: #272727;
+  --backgroun-color: #333333;
+  --font-color: #cfd8dc;
+
+  /*tipograifa*/
+  --font-size-big: 20px;
+  --font-size-medium: 16px;
+  --font-size-small: 14px;
+  --font-size-more-small: 12px;
+
+  /*tamaños*/
+  --widht-del-total: 100%;
+  --height-del-total: 100%;
+  --icons-small: 30px;
+  --icons-big: 40px;
+
+  /*efectos*/
+  --transition-speed: 500ms;
+  --gap-size: 10px;
+
+  /*cursor*/
+  --cursor-pointer: pointer;
+}

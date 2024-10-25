@@ -19,7 +19,7 @@
   left: 0;
   right: 0;
   padding: 0px 0% 0px 2%;
-  background-color: #050505;
+  background-color: #2b2b2b;
 }
 
 .MesasContainer {
@@ -31,7 +31,7 @@
   display: flex;
   flex: 8;
   list-style: none;
-  gap: 20px;
+  gap: 10%;
 }
 
 .SectionContainer li {
@@ -44,7 +44,7 @@
   flex: 2;
   justify-content: start;
   padding: 1%;
-  gap: 10px;
+  gap: 10%;
 }
 
 .PanelControlDeSections button {
@@ -52,7 +52,9 @@
   height: 50px;
   border-radius: 10px;
   border: none;
-  background-color: #272727;
+  background-color: #4caf50;
+  color: white;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .Icons {
@@ -75,7 +77,7 @@
 }
 
 .Section {
-  gap: 5px;
+  gap: 10%;
   transition: background-color 500ms ease;
 }
 
@@ -89,4 +91,7 @@
 .Section.active {
   background-color: #272727;
   border-top: #4d721a 2px solid;
+}
+
+@media (max-width: 900px) {
 }

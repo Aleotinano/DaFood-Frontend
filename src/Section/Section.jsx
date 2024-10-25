@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import SectionStyle from "./Sections.module.css";
 import { Mesas } from "../Mesas/Mesas";
-import DeleteIcon from "../path-to-image/delete_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png";
-import AddIcon from "../path-to-image/add_circle_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png";
-import EditIcon from "../path-to-image/brush_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png";
+import DeleteIcon from "../Paht/Images/remove_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import AddIcon from "../Paht/Images/add_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import EditIcon from "../Paht/Images/edit_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import EditMenu from "../Paht/Images/edit_note_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
 
 export const Section = () => {
   const location = useLocation();

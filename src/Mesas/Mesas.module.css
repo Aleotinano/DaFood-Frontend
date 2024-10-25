@@ -13,7 +13,6 @@
 }
 
 .PanelControlDeMesas {
-  background-color: #181818;
   padding: 0px 0% 0% 2%;
 }
 
@@ -25,7 +24,7 @@
   margin-bottom: 20px;
   border-radius: 5px;
   color: white;
-  background-color: #070707;
+  background-color: transparent;
   border: none;
 }
 
@@ -50,33 +49,32 @@
 }
 
 .Mesas button {
+  border: none;
   display: flex;
   font-size: 15px;
   font-weight: 600;
-  color: white;
-  background-color: #070707;
+  color: #ffffff;
+  background-color: #242424;
+  box-shadow: 0 4px 6px 1px #242424;
   text-align: start;
   justify-content: flex-start;
   align-items: start;
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   padding: 10px 5px 10px 5px;
-  margin: 4px;
-  border-radius: 5px;
-  border: none;
+  margin: 8px;
+  border-radius: 8px;
   cursor: pointer;
-  filter: brightness(80%);
   transition: ease 300ms;
 }
 
 .Mesas button:hover {
-  filter: brightness(100%);
-  opacity: 100%;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
 }
 
 .selected {
-  filter: brightness(100%);
-  width: 100%;
+  transform: scale(1.05);
 }
 
 .SpanContentTable {
@@ -93,6 +91,7 @@
 }
 .Spancontent {
   display: flex;
+  font-size: 14px;
   gap: 10px;
 }
 

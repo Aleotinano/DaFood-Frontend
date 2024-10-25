@@ -1,8 +1,8 @@
 import MesasStyle from "./Mesas.module.css";
 import { useState } from "react";
 import { PanelDeComanda } from "../PanelDeComanda/PanelDeComanda";
-import CamareroIcon from "../path-to-image/3p_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png";
-import MesaIcon from "../path-to-image/table_bar_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png";
+import CamareroIcon from "../Paht/Images/sensor_occupied_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import MesaIcon from "../Paht/Images/table_bar_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
 
 export const Mesas = ({
   mesas = [],
@@ -92,7 +92,7 @@ export const Mesas = ({
               >
                 <div className={MesasStyle.SpanContentTable}>
                   <div className={MesasStyle.Spancontent}>
-                    <img
+                    <svg
                       src={MesaIcon}
                       alt="Mesa"
                       className={MesasStyle.IconSpam}
@@ -100,7 +100,7 @@ export const Mesas = ({
                     {mesa}
                   </div>
                   <div className={MesasStyle.Spancontent}>
-                    <img
+                    <svg
                       src={CamareroIcon}
                       alt="CamareroIcon"
                       className={MesasStyle.IconSpam}
