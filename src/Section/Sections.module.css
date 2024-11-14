@@ -1,6 +1,6 @@
 .MesasSectionContainer {
   display: flex;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 160px);
 }
 
 .SectionContainer,
@@ -20,6 +20,7 @@
   right: 0;
   padding: 0px 0% 0px 2%;
   background-color: #2b2b2b;
+  z-index: 1;
 }
 
 .MesasContainer {
@@ -39,41 +40,13 @@
   border-radius: 0px 0px 10px 10px;
 }
 
-.PanelControlDeSections {
-  display: flex;
-  flex: 2;
-  justify-content: start;
-  padding: 1%;
-  gap: 10%;
-}
-
-.PanelControlDeSections button {
-  width: 80px;
-  height: 50px;
-  border-radius: 10px;
-  border: none;
-  background-color: #4caf50;
-  color: white;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
 .Icons {
   width: 30px;
   height: 30px;
   padding: 0;
   margin: 0;
   vertical-align: middle;
-}
-
-.AddSectionButton:hover {
-  background-color: #4d721a;
-}
-
-.EditSectionButton:hover {
-  background-color: #aa6024;
-}
-.DeleteSectionButton:hover {
-  background-color: #922222;
+  background-color: #272727;
 }
 
 .Section {
@@ -84,7 +57,7 @@
 .Section a {
   color: #0c0101;
   text-decoration: none;
-  padding: 30px;
+  padding: 20px;
   color: white;
 }
 
@@ -93,5 +66,50 @@
   border-top: #4d721a 2px solid;
 }
 
+.PanelButtonsContainer {
+  display: flex;
+  flex: 2;
+  justify-content: start;
+  align-items: start;
+  gap: 10%;
+  padding: 5px;
+}
+
+.DropButton {
+  position: relative;
+  display: flex;
+  z-index: 1;
+  padding: 10px;
+}
+
+.DropMenu {
+  position: absolute;
+  display: none;
+  height: auto;
+  left: 5%;
+  flex-direction: row;
+  background-color: #2b2b2b;
+  gap: 20px;
+  border: none;
+  padding: 10px;
+  z-index: 2; /* Asegura que el menú esté encima del botón */
+}
+
+.NavVisible {
+  display: flex;
+}
+
+.DropItem {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.DropItem:last-child {
+  border-bottom: none; /* Elimina el borde inferior del último elemento */
+}
+
 @media (max-width: 900px) {
+  .DropMenu {
+    bottom: 100%;
+  }
 }

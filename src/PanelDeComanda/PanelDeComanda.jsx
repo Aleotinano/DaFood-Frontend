@@ -1,45 +1,96 @@
 import React, { useState } from "react";
 import PanelStyle from "./PanelDeComanda.module.css";
+import { ShowDropButton } from "../Paht/Buttons/Buttons-Section/ShowDropButton";
+import { FaAnchor, FaAnchorLock } from "react-icons/fa6";
 
-export const PanelDeComanda = ({ onCamareroChange }) => {
+export const PanelDeComanda = ({
+  onCamareroChange,
+  onDescriptionChange,
+  Seccion,
+  NumeroDeMesa,
+  Descripcion,
+}) => {
   const [camarero, setCamareroInput] = useState("");
+  const [isNavVisible, setIsNavVisible] = useState(false);
 
-  const handleCamareroChange = (e) => {
+  const CamareroChange = (e) => {
     const value = e.target.value;
     setCamareroInput(value);
-    onCamareroChange(value); // Notificar al padre sobre el cambio
+    onCamareroChange(value);
+  };
+
+  const handleDescriptionChange = (e) => {
+    onDescriptionChange(e.target.value);
+  };
+
+  const toggleNavVisibility = () => {
+    setIsNavVisible((prevState) => !prevState);
   };
 
   return (
-    <div className={PanelStyle.PanelContainer}>
-      <ul>
-        <li className={PanelStyle.titulo}>
-          <h2>Seccion</h2>
-          <h2>Mesa</h2>
+    <div
+      className={`${PanelStyle.PanelContainer} ${
+        isNavVisible ? PanelStyle.AnchorPanel : PanelStyle.NoAnchorPanel
+      }`}
+    >
+      <ul className={PanelStyle.Panel}>
+        <li className={PanelStyle.ButtonAnchorYTitlesContainer}>
+          <li className={PanelStyle.titulo}>
+            <h1>{Seccion}</h1>
+            <h2>{NumeroDeMesa}</h2>
+          </li>
+          <li className={PanelStyle.ButtonAnchor}>
+            <ShowDropButton
+              onClick={toggleNavVisibility}
+              className={`${PanelStyle.AnchorPanel} ${
+                isNavVisible ? PanelStyle.NoAnchorPanel : ""
+              }`}
+              text={
+                isNavVisible ? (
+                  <FaAnchor className={PanelStyle.Icons} />
+                ) : (
+                  <FaAnchorLock className={PanelStyle.Icons} />
+                )
+              }
+            />
+          </li>
         </li>
-        <li>
+
+        <li className={PanelStyle.InputContainer}>
           <input
             type="text"
             placeholder="Camarero"
             name="Camarero"
+            list="camareroOptions"
             value={camarero}
-            onChange={handleCamareroChange} // Captura el cambio en el input
+            onChange={CamareroChange}
           />
-          <label htmlFor="Camarero"></label>
+          <datalist id="camareroOptions">
+            <option value="Juan" />
+            <option value="María" />
+            <option value="Carlos" />
+            <option value="Ana" />
+            <option value="Luis" />
+          </datalist>
         </li>
         <li>
-          <p>Descripción</p>
+          <input
+            type="text"
+            placeholder="Descripcion"
+            name="Descripcion"
+            value={Descripcion}
+            onChange={handleDescriptionChange}
+          />
         </li>
-
         <li>
-          Comanda: <p>1Lorem ipsum dolor</p>
-          <p>2sit amet consectetur </p> <p>3 sit amet consectetur </p>{" "}
+          Comanda:
+          <p>1Lorem ipsum dolor</p>
+          <p>2sit amet consectetur</p>
+          <p>3 sit amet consectetur</p>
           <p>4 explicabo nobis soluta q</p>
         </li>
         <li>
           <button>Abrir Mesa</button>
-        </li>
-        <li>
           <button>Cerrar Mesa</button>
         </li>
       </ul>

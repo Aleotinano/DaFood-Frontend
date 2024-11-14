@@ -5,12 +5,23 @@ import { Mesas } from "../Mesas/Mesas";
 import DeleteIcon from "../Paht/Images/remove_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
 import AddIcon from "../Paht/Images/add_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
 import EditIcon from "../Paht/Images/edit_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import EditIconClose from "../Paht/Images/playlist_remove_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
 import EditMenu from "../Paht/Images/edit_note_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import { AddSectionButton } from "../Paht/Buttons/Buttons-Section/AddSectionButton";
+import { EditSectionButton } from "../Paht/Buttons/Buttons-Section/EditSectionButton";
+import { DeleteSectionButton } from "../Paht/Buttons/Buttons-Section/DeleteSectionButton";
+import { ShowDropButton } from "../Paht/Buttons/Buttons-Section/ShowDropButton";
+import { AddButton } from "../Paht/Buttons/Buttons-Table/AddButton";
+import { DeleteButton } from "../Paht/Buttons/Buttons-Table/DeleteButton";
 
-export const Section = () => {
+export const Section = ({ mesas = [] }) => {
   const location = useLocation();
-  const [selectedSectionIndex, setSelectedSectionIndex] = useState(null);
-
+  const [mesaSeleccionada, setMesaSeleccionada] = useState(
+    mesas.length > 0 ? 0 : null
+  );
+  const [camarerosPorMesa, setCamarerosPorMesa] = useState({});
+  const [isNavVisible, setIsNavVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState(null);
   const [sectionNames, setSectionNames] = useState(() => {
     const savedSections = localStorage.getItem("sections");
     return savedSections ? JSON.parse(savedSections) : [];
@@ -25,76 +36,6 @@ export const Section = () => {
     const savedCount = localStorage.getItem("mesaGlobalCount");
     return savedCount ? JSON.parse(savedCount) : 0;
   });
-
-  const [activeSection, setActiveSection] = useState(null);
-
-  const AddSectionButton = () => {
-    let sectionName = prompt("Ingresa el nombre de la nueva sección:");
-
-    while (true) {
-      sectionName = sectionName.trim();
-
-      if (/^[a-zA-Z0-9 ]+$/.test(sectionName)) {
-        break;
-      } else {
-        alert("Por favor, ingresa solo letras, números o espacios.");
-        sectionName = prompt("Ingresa el nombre de la nueva sección:");
-      }
-    }
-
-    if (sectionName) {
-      setSectionNames((prevSections) => {
-        const updatedSections = [...prevSections, sectionName];
-        setMesasPorSeccion((prevMesas) => ({
-          ...prevMesas,
-          [sectionName]: [],
-        }));
-        return updatedSections;
-      });
-    }
-  };
-
-  const RemoveSection = (indexToRemove) => {
-    const sectionToRemove = sectionNames[indexToRemove];
-    const mesasAEliminar = mesasPorSeccion[sectionToRemove].length;
-
-    setSectionNames((prevSections) =>
-      prevSections.filter((_, index) => index !== indexToRemove)
-    );
-
-    setMesasPorSeccion((prevMesas) => {
-      const updatedMesas = { ...prevMesas };
-      delete updatedMesas[sectionToRemove];
-      return updatedMesas;
-    });
-
-    setMesaGlobalCount((prevCount) => prevCount - mesasAEliminar);
-  };
-
-  const EditSectionName = (sectionindex) => {
-    const newName = prompt("Ingresa el nuevo nombre para la sección:");
-
-    if (newName) {
-      const oldName = sectionNames[sectionindex];
-      setSectionNames((prevSections) =>
-        prevSections.map((name, idx) => (idx === sectionindex ? newName : name))
-      );
-
-      setMesasPorSeccion((prevMesas) => {
-        const updatedMesas = { ...prevMesas, [newName]: prevMesas[oldName] };
-        delete updatedMesas[oldName];
-        if (activeSection === oldName) {
-          setActiveSection(newName);
-
-          // Actualizar el hash en la URL para reflejar el nuevo nombre
-          const newSectionId = newName.toLowerCase().replace(/\s+/g, "-");
-          window.location.hash = `#${newSectionId}`;
-        }
-        return updatedMesas;
-      });
-    }
-  };
-
   useEffect(() => {
     localStorage.setItem("sections", JSON.stringify(sectionNames));
     localStorage.setItem("mesasPorSeccion", JSON.stringify(mesasPorSeccion));
@@ -111,56 +52,145 @@ export const Section = () => {
       setActiveSection(currentSection);
     } else if (sectionNames.length > 0 && !activeSection) {
       setActiveSection(sectionNames[0]);
-      // Redirigir a la primera sección si no hay hash
       window.location.hash = `#${sectionNames[0]
         .toLowerCase()
         .replace(/\s+/g, "-")}`;
     }
   }, [location.hash, sectionNames, activeSection]);
 
-  const handleSectionClick = (sectionName) => {
-    const sectionId = sectionName.toLowerCase().replace(/\s+/g, "-");
-    setActiveSection(sectionName);
-    window.location.hash = `#${sectionId}`;
+  useEffect(() => {
+    if (activeSection) {
+      const newSectionId = activeSection.toLowerCase().replace(/\s+/g, "-");
+      window.location.hash = `#${newSectionId}`;
+    }
+  }, [activeSection]);
+
+  // Boton de reiniciar mesas ( por si esta antiguo el host local)
+
+  const borrarMesas = () => {
+    setMesaGlobalCount(0);
+    setMesasPorSeccion((prevMesas) => ({
+      ...prevMesas,
+      [activeSection]: [],
+    }));
   };
+
+  useEffect(() => {
+    localStorage.setItem("mesasPorSeccion", JSON.stringify(mesasPorSeccion));
+  }, [mesasPorSeccion]);
 
   return (
     <div className={SectionStyle.MesasSectionContainer}>
       <div className={SectionStyle.NavSections}>
-        <ul className={SectionStyle.PanelControlDeSections}>
-          <button
-            onClick={AddSectionButton}
-            className={SectionStyle.AddSectionButton}
+        <ul className={SectionStyle.PanelButtonsContainer}>
+          <ShowDropButton
+            isNavVisible={isNavVisible}
+            setIsNavVisible={setIsNavVisible}
+            className={SectionStyle.DropButton}
+            text={
+              <img
+                src={isNavVisible ? EditIconClose : EditMenu}
+                alt="Menu"
+                className={SectionStyle.Icons}
+              />
+            }
+          />
+          <li
+            className={`${SectionStyle.DropMenu} ${
+              isNavVisible ? SectionStyle.NavVisible : ""
+            }`}
           >
-            <img
-              src={AddIcon}
-              alt="AddSection"
-              className={SectionStyle.Icons}
+            <AddSectionButton
+              className={SectionStyle.DropItem}
+              setSectionNames={setSectionNames}
+              setMesasPorSeccion={setMesasPorSeccion}
+              sectionNames={sectionNames}
+              setsectionNames={setSectionNames}
+              text={
+                <img
+                  src={AddIcon}
+                  alt="AddSection"
+                  className={SectionStyle.Icons}
+                />
+              }
             />
-          </button>
-          <button
-            onClick={() => EditSectionName(selectedSectionIndex)}
-            className={SectionStyle.EditSectionButton}
-          >
-            <img
-              src={EditIcon}
-              alt="EditSection"
-              className={SectionStyle.Icons}
+            <EditSectionButton
+              className={SectionStyle.DropItem}
+              sectionNames={sectionNames}
+              setSectionNames={setSectionNames}
+              setMesasPorSeccion={setMesasPorSeccion}
+              activeSection={activeSection}
+              setActiveSection={setActiveSection}
+              text={
+                <img
+                  src={EditIcon}
+                  alt="EditSection"
+                  className={SectionStyle.Icons}
+                />
+              }
             />
-          </button>
-          <button
-            onClick={() => RemoveSection(selectedSectionIndex)}
-            className={SectionStyle.DeleteSectionButton}
-          >
-            <img
-              src={DeleteIcon}
-              alt="DeleteSection"
-              className={SectionStyle.Icons}
+            <DeleteSectionButton
+              className={SectionStyle.DropItem}
+              sectionNames={sectionNames}
+              setSectionNames={setSectionNames}
+              mesasPorSeccion={mesasPorSeccion}
+              setMesasPorSeccion={setMesasPorSeccion}
+              setMesaGlobalCount={setMesaGlobalCount}
+              setActiveSection={setActiveSection}
+              activeSection={activeSection}
+              text={
+                <img
+                  src={DeleteIcon}
+                  alt="DeleteSection"
+                  className={SectionStyle.Icons}
+                />
+              }
             />
-          </button>
+            <AddButton
+              className={SectionStyle.DropItem}
+              mesaGlobalCount={mesaGlobalCount}
+              mesas={mesasPorSeccion[activeSection] || []}
+              setMesas={(nuevasMesas) =>
+                setMesasPorSeccion((prevMesas) => ({
+                  ...prevMesas,
+                  [activeSection]: nuevasMesas,
+                }))
+              }
+              activeSection={activeSection}
+              setMesaGlobalCount={setMesaGlobalCount}
+              text={
+                <img
+                  src={AddIcon}
+                  alt="AddTable"
+                  className={SectionStyle.Icons}
+                />
+              }
+            />
+            <DeleteButton
+              mesas={mesasPorSeccion[activeSection]}
+              setMesas={(nuevasMesas) =>
+                setMesasPorSeccion((prevMesas) => ({
+                  ...prevMesas,
+                  [activeSection]: nuevasMesas,
+                }))
+              }
+              setMesaGlobalCount={setMesaGlobalCount}
+              mesaSeleccionada={mesaSeleccionada}
+              setMesaSeleccionada={setMesaSeleccionada}
+              setCamarerosPorMesa={setCamarerosPorMesa}
+              text={
+                <img
+                  src={DeleteIcon}
+                  alt="DeleteTable"
+                  className={SectionStyle.Icons}
+                />
+              }
+            />
+            <button onClick={borrarMesas}>Borrar Todas las Mesas</button>
+          </li>
         </ul>
         <ul className={SectionStyle.SectionContainer}>
-          {sectionNames.map((sectionName, sectionindex) => {
+          {sectionNames.map((sectionName, sectionIndex) => {
             const sectionId = sectionName.toLowerCase().replace(/\s+/g, "-");
             const isActive = activeSection === sectionName;
             const sectionClass = `${SectionStyle.Section} ${
@@ -169,19 +199,11 @@ export const Section = () => {
 
             return (
               <li
-                key={sectionindex}
+                key={sectionIndex}
                 className={sectionClass}
-                onClick={() => setSelectedSectionIndex(sectionindex)}
+                onClick={() => setActiveSection(sectionName)}
               >
-                <a
-                  href={`#${sectionId}`}
-                  onClick={(e) => {
-                    e.preventDefault(); // Evitar el comportamiento predeterminado
-                    handleSectionClick(sectionName);
-                  }}
-                >
-                  {sectionName}
-                </a>
+                <a href={`#${sectionId}`}>{sectionName}</a>
               </li>
             );
           })}
@@ -191,6 +213,13 @@ export const Section = () => {
       <div className={SectionStyle.MesasContainer}>
         {activeSection && (
           <Mesas
+            mesaGlobalCount={mesaGlobalCount}
+            setMesaGlobalCount={setMesaGlobalCount}
+            activeSection={activeSection}
+            mesaSeleccionada={mesaSeleccionada}
+            setMesaSeleccionada={setMesaSeleccionada}
+            setCamarerosPorMesa={setCamarerosPorMesa}
+            camarerosPorMesa={camarerosPorMesa}
             mesas={mesasPorSeccion[activeSection]}
             setMesas={(nuevasMesas) =>
               setMesasPorSeccion((prevMesas) => ({
@@ -198,8 +227,6 @@ export const Section = () => {
                 [activeSection]: nuevasMesas,
               }))
             }
-            mesaGlobalCount={mesaGlobalCount}
-            setMesaGlobalCount={setMesaGlobalCount}
           />
         )}
       </div>

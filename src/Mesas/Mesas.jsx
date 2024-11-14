@@ -1,122 +1,85 @@
+import React, { useState, useEffect } from "react";
 import MesasStyle from "./Mesas.module.css";
-import { useState } from "react";
 import { PanelDeComanda } from "../PanelDeComanda/PanelDeComanda";
-import CamareroIcon from "../Paht/Images/sensor_occupied_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
-import MesaIcon from "../Paht/Images/table_bar_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+import { Table } from "../Paht/Buttons/Buttons-Table/Table";
+import "../Paht/variables/Variables.css";
 
 export const Mesas = ({
   mesas = [],
   setMesas,
-  mesaGlobalCount,
-  setMesaGlobalCount,
+  activeSection,
+  mesaSeleccionada,
+  setMesaSeleccionada,
+  camarerosPorMesa,
+  setCamarerosPorMesa,
 }) => {
-  const [camarerosPorMesa, setCamarerosPorMesa] = useState({});
-  const [mesaSeleccionada, setMesaSeleccionada] = useState(
-    mesas.length > 0 ? 0 : null
-  );
+  const [descripcionesPorMesa, setDescripcionesPorMesa] = useState({});
 
-  const handleCamareroChange = (newCamarero) => {
+  // Cargar descripciones desde localStorage al iniciar
+  useEffect(() => {
+    const savedDescriptions =
+      JSON.parse(localStorage.getItem("descripcionesPorMesa")) || {};
+    setDescripcionesPorMesa(savedDescriptions);
+  }, []);
+
+  // Guardar descripciones en localStorage al cambiar
+  useEffect(() => {
+    localStorage.setItem(
+      "descripcionesPorMesa",
+      JSON.stringify(descripcionesPorMesa)
+    );
+  }, [descripcionesPorMesa]);
+
+  const NumeroDeMesa =
+    mesaSeleccionada !== null ? mesas[mesaSeleccionada] : null;
+
+  const CamareroChange = (newCamarero) => {
     if (mesaSeleccionada !== null) {
       setCamarerosPorMesa((prevCamareros) => ({
         ...prevCamareros,
-        [mesaSeleccionada]: newCamarero, // Almacena el camarero solo para la mesa seleccionada
+        [mesaSeleccionada]: newCamarero,
       }));
     }
   };
 
-  const agregarMesa = () => {
-    const nuevaMesa = `Mesa ${mesaGlobalCount + 1}`;
-    setMesas([...mesas, nuevaMesa]);
-    setMesaGlobalCount(mesaGlobalCount + 1);
-  };
-
-  const eliminarMesa = () => {
+  const DescriptionChange = (newDescripcion) => {
     if (mesaSeleccionada !== null) {
-      const nuevasMesas = mesas.filter(
-        (_, index) => index !== mesaSeleccionada
-      );
-      setMesas(nuevasMesas);
-      setCamarerosPorMesa((prevCamareros) => {
-        const newCamareros = { ...prevCamareros };
-        delete newCamareros[mesaSeleccionada];
-        return newCamareros;
-      });
-      // Si aún quedan mesas, selecciona otra
-      if (nuevasMesas.length > 0) {
-        setMesaSeleccionada(0); // O el índice que prefieras
-      } else {
-        setMesaSeleccionada(null); // Si no quedan mesas
-      }
+      setDescripcionesPorMesa((prevDescripciones) => ({
+        ...prevDescripciones,
+        [mesaSeleccionada]: newDescripcion,
+      }));
     }
   };
 
-  const resetearContador = () => {
-    setMesaGlobalCount(0);
-    setMesas([]);
-    setCamarerosPorMesa({});
-    localStorage.removeItem("coloresMesa"); // Limpia localStorage
-  };
-
   return (
-    <div className={MesasStyle.MesasContainerTotal}>
+    <div className={MesasStyle.PanelyMesasContainer}>
       <div className={MesasStyle.ContenedorMesas}>
-        <ul className={MesasStyle.PanelControlDeMesas}>
-          <li>
-            <button onClick={agregarMesa} className={MesasStyle.AddTablebutton}>
-              Agregar Mesa
-            </button>
-            <button
-              onClick={eliminarMesa}
-              disabled={mesaSeleccionada === null}
-              className={MesasStyle.DeleteTablebutton}
-            >
-              Eliminar Mesa
-            </button>
-            <button
-              onClick={resetearContador}
-              className={MesasStyle.ResetTablebutton}
-            >
-              Resetear Contador
-            </button>
-          </li>
-        </ul>
-
-        <ul className={MesasStyle.Mesas}>
-          {mesas.map((mesa, index) => (
-            <li key={index}>
-              <button
-                onClick={() => setMesaSeleccionada(index)}
-                className={
-                  mesaSeleccionada === index ? MesasStyle.selected : ""
-                }
-              >
-                <div className={MesasStyle.SpanContentTable}>
-                  <div className={MesasStyle.Spancontent}>
-                    <svg
-                      src={MesaIcon}
-                      alt="Mesa"
-                      className={MesasStyle.IconSpam}
-                    />
-                    {mesa}
-                  </div>
-                  <div className={MesasStyle.Spancontent}>
-                    <svg
-                      src={CamareroIcon}
-                      alt="CamareroIcon"
-                      className={MesasStyle.IconSpam}
-                    />
-                    <p>{camarerosPorMesa[index] || "Sin asignar"}</p>
-                  </div>
-                </div>
-              </button>
-            </li>
-          ))}
-        </ul>
+        {mesas.map((mesa, index) => (
+          <Table
+            setMesaSeleccionada={setMesaSeleccionada}
+            SpanContentTable={MesasStyle.SpanContentTable}
+            Spancontent={MesasStyle.Spancontent}
+            Tables={`${MesasStyle.Tables} ${
+              mesaSeleccionada === index ? MesasStyle.selected : ""
+            }`}
+            IconStyle={MesasStyle.IconSpam}
+            IconSpam={MesasStyle.IconSpam}
+            mesa={mesa}
+            setMesas={setMesas}
+            camarerosPorMesa={camarerosPorMesa}
+            index={index}
+            key={index}
+          />
+        ))}
       </div>
 
-      <ul className={MesasStyle.PanelDeComandaContainer}>
-        <PanelDeComanda onCamareroChange={handleCamareroChange} />
-      </ul>
+      <PanelDeComanda
+        onCamareroChange={CamareroChange}
+        onDescriptionChange={DescriptionChange}
+        Seccion={activeSection}
+        NumeroDeMesa={NumeroDeMesa}
+        Descripcion={descripcionesPorMesa[mesaSeleccionada] || ""}
+      />
     </div>
   );
 };
